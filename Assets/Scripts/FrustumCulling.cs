@@ -6,29 +6,37 @@ public class FrustrumCulling : MonoBehaviour
 {
     // Start is called before the first frame update
     [SerializeField] GameObject point;
+    FrustumController frustumController;
     void Start()
     {
-
+        frustumController = GetComponent<FrustumController>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        CheckPointInside();
+        if (CheckPointInside())
+            point.GetComponent<MeshRenderer>().enabled = true;
+        else
+            point.GetComponent<MeshRenderer>().enabled = false;
     }
     int insideOfNormals = 0;
-    void CheckPointInside()
+    bool CheckPointInside()
     {
         insideOfNormals = 0;
-        for (int i = 0; i < GetComponent<FrustumController>().frustumNormals.Length; i++)
+        for (int faceIndex = 0; faceIndex <= frustumController.vertices.Count - 3; faceIndex += 3)
         {
-            if (Vector3.Dot(GetComponent<FrustumController>().frustumNormals[i], point.transform.position) > 0)
+            if (frustumController.IsPointInside(point.transform.position, faceIndex))
                 insideOfNormals++;
+            else
+                return false;
         }
 
-        Debug.Log(insideOfNormals + "/" + GetComponent<FrustumController>().frustumNormals.Length);
+        Debug.Log(insideOfNormals + "/" + frustumController.vertices.Count / 3);
 
-        if (insideOfNormals >= GetComponent<FrustumController>().frustumNormals.Length)
+        if (insideOfNormals >= frustumController.vertices.Count / 3)
             Debug.Log("Adentro");
+
+        return true;
     }
 }

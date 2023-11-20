@@ -15,8 +15,6 @@ public class FrustumController : MonoBehaviour
 
     [SerializeField] float aspectRatio;
     // Start is called before the first frame update
-    public Vector3[] frustumNormals;
-
 
     Vector3 farLimit;
     Vector3 nearLimit;
@@ -40,7 +38,6 @@ public class FrustumController : MonoBehaviour
     void Start()
     {
         SetVertices();
-        frustumNormals = new Vector3[6];
     }
 
     void Update()
@@ -63,13 +60,6 @@ public class FrustumController : MonoBehaviour
         farUpperRightVertex = new Vector3(Mathf.Tan((fieldOfViewAngle / 2) * Mathf.Deg2Rad) * renderingDistance, Mathf.Tan((verticalfieldOfViewAngle / 2) * Mathf.Deg2Rad) * renderingDistance, farLimit.z);
         farLowerLeftVertex = new Vector3(Mathf.Tan((-fieldOfViewAngle / 2) * Mathf.Deg2Rad) * renderingDistance, Mathf.Tan((-verticalfieldOfViewAngle / 2) * Mathf.Deg2Rad) * renderingDistance, farLimit.z);
         farLowerRightVertex = new Vector3(Mathf.Tan((fieldOfViewAngle / 2) * Mathf.Deg2Rad) * renderingDistance, Mathf.Tan((-verticalfieldOfViewAngle / 2) * Mathf.Deg2Rad) * renderingDistance, farLimit.z);
-
-        int index = 0;
-        for (int i = 0; i <= vertices.Count - 3; i += 3)
-        {
-            frustumNormals[index] = GetFaceNormal(i);
-            index++;
-        }
     }
 
     private void OnDrawGizmos()
@@ -196,5 +186,24 @@ public class FrustumController : MonoBehaviour
         Vector3 normalizedNormal = normal / magnitude;
 
         return normalizedNormal;
+    }
+    public bool IsPointInside(Vector3 point, int faceIndex)
+    {
+        Vector3 normal = GetFaceNormal(faceIndex);
+        Vector3 facePoint = GetFacePoint(faceIndex);
+        //Vector3 offset;
+        //offset.x = (vertices[faceIndex].x + vertices[faceIndex + 1].x + vertices[faceIndex + 2].x) / 3;
+        //offset.y = (vertices[faceIndex].y + vertices[faceIndex + 1].y + vertices[faceIndex + 2].y) / 3;
+        //offset.z = (vertices[faceIndex].z + vertices[faceIndex + 1].z + vertices[faceIndex + 2].z) / 3;
+
+        return Vector3.Dot(normal, point - facePoint) > 0;
+    }
+    public Vector3 GetFacePoint(int faceIndex)
+    {
+        Vector3 point;
+        point.x = (vertices[faceIndex].x + vertices[faceIndex + 1].x + vertices[faceIndex + 2].x) / 3;
+        point.y = (vertices[faceIndex].y + vertices[faceIndex + 1].y + vertices[faceIndex + 2].y) / 3;
+        point.z = (vertices[faceIndex].z + vertices[faceIndex + 1].z + vertices[faceIndex + 2].z) / 3;
+        return point;
     }
 }

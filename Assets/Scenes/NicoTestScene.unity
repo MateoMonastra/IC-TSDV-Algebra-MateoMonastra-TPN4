@@ -163,7 +163,6 @@ MonoBehaviour:
   nearClippingPlane: 1
   renderingDistance: 10
   aspectRatio: 0
-  frustumNormals: []
   vertices: []
 --- !u!65 &256356723
 BoxCollider:
