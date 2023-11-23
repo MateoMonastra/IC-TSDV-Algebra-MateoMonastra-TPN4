@@ -2,18 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Boundig : MonoBehaviour
+public class BoundingBox : MonoBehaviour
 {
-    private List<Vector3> vertices = new List<Vector3>();
+    [SerializeField] private List<Vector3> vertices = new List<Vector3>();
     private Bounds boundingBox;
 
     private void Start()
     {
-        GetVertices();
+        SetVertices();
         DrawBoundingBox();
     }
 
-    void GetVertices()
+    private void Update()
+    {
+        SetVertices();
+    }
+    void SetVertices()
     {
         MeshFilter meshFilter = GetComponent<MeshFilter>();
 
@@ -29,6 +33,12 @@ public class Boundig : MonoBehaviour
             boundingBox = CalculateBoundingBox(vertices);
         }
     }
+
+    public List<Vector3> GetVertices()
+    {
+        return vertices;
+    }
+
     Bounds CalculateBoundingBox(List<Vector3> vertexList)
     {
         if (vertexList.Count == 0)

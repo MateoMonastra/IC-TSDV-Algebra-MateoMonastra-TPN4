@@ -5,7 +5,7 @@ using UnityEngine;
 public class FrustrumCulling : MonoBehaviour
 {
     // Start is called before the first frame update
-    [SerializeField] GameObject point;
+    //[SerializeField] GameObject point;
     FrustumController frustumController;
     void Start()
     {
@@ -15,21 +15,33 @@ public class FrustrumCulling : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (CheckPointInside())
-            point.GetComponent<MeshRenderer>().enabled = true;
-        else
-            point.GetComponent<MeshRenderer>().enabled = false;
+        foreach (GameObject hidableObject in GameObject.FindGameObjectsWithTag("HidableObject"))
+        {
+            BoundingBox objectBoundingBox = hidableObject.GetComponent<BoundingBox>();
+
+            for (int i = 0; i < objectBoundingBox.GetVertices().Count; i++)
+            {
+                if (CheckPointInside(objectBoundingBox.GetVertices()[i]))
+                {
+                    hidableObject.GetComponent<MeshRenderer>().enabled = true;
+                    break;
+                }
+                else
+                    hidableObject.GetComponent<MeshRenderer>().enabled = false;
+            }
+        }
     }
     int insideOfNormals = 0;
-    bool CheckPointInside()
+    bool CheckPointInside(Vector3 point)
     {
         insideOfNormals = 0;
-        for (int faceIndex = 0; faceIndex <= frustumController.vertices.Count - 3; faceIndex += 3)
+        foreach (GameObject hidableObject in GameObject.FindGameObjectsWithTag("HidableObject"))
         {
-            if (frustumController.IsPointInside(point.transform.position, faceIndex))
-                insideOfNormals++;
-            else
-                return false;
+            for (int faceIndex = 0; faceIndex <= frustumController.vertices.Count - 3; faceIndex += 3)
+            {
+                if (!frustumController.IsPointInside(point, faceIndex))
+                    return false;
+            }
         }
 
         Debug.Log(insideOfNormals + "/" + frustumController.vertices.Count / 3);
