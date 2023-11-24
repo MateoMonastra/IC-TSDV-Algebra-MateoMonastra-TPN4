@@ -19,35 +19,45 @@ public class FrustrumCulling : MonoBehaviour
         {
             BoundingBox objectBoundingBox = hidableObject.GetComponent<BoundingBox>();
 
-            for (int i = 0; i < objectBoundingBox.GetVertices().Count; i++)
+            for (int i = 0; i < objectBoundingBox.GetBoundsVertices().Length; i++)
             {
-                if (CheckPointInside(objectBoundingBox.GetVertices()[i]))
+                if (CheckPointInside(objectBoundingBox.GetBoundsVertices()[i]))
                 {
-                    hidableObject.GetComponent<MeshRenderer>().enabled = true;
+                    Debug.Log("Vertex number:" + i + " Of figure: " + hidableObject.name + " is Inside");
+                    for (int j = 0; j < objectBoundingBox.GetVertices().Count; j++)
+                    {
+                        if (CheckPointInside(objectBoundingBox.GetVertices()[j]))
+                        {
+                            hidableObject.GetComponent<MeshRenderer>().enabled = true;
+                            break;
+                        }
+                        else
+                            hidableObject.GetComponent<MeshRenderer>().enabled = false;
+                    }
                     break;
                 }
                 else
                     hidableObject.GetComponent<MeshRenderer>().enabled = false;
+
             }
         }
     }
+
     int insideOfNormals = 0;
     bool CheckPointInside(Vector3 point)
     {
         insideOfNormals = 0;
-        foreach (GameObject hidableObject in GameObject.FindGameObjectsWithTag("HidableObject"))
+
+        for (int faceIndex = 0; faceIndex <= frustumController.vertices.Count - 3; faceIndex += 3)
         {
-            for (int faceIndex = 0; faceIndex <= frustumController.vertices.Count - 3; faceIndex += 3)
-            {
-                if (!frustumController.IsPointInside(point, faceIndex))
-                    return false;
-            }
+            if (!frustumController.IsPointInside(point, faceIndex))
+                return false;
         }
 
-        Debug.Log(insideOfNormals + "/" + frustumController.vertices.Count / 3);
+        //Debug.Log(insideOfNormals + "/" + frustumController.vertices.Count / 3);
 
-        if (insideOfNormals >= frustumController.vertices.Count / 3)
-            Debug.Log("Adentro");
+        //if (insideOfNormals >= frustumController.vertices.Count / 3)
+        //    Debug.Log("Adentro");
 
         return true;
     }

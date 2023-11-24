@@ -60,6 +60,7 @@ public class FrustumController : MonoBehaviour
         farUpperRightVertex = new Vector3(Mathf.Tan((fieldOfViewAngle / 2) * Mathf.Deg2Rad) * renderingDistance, Mathf.Tan((verticalfieldOfViewAngle / 2) * Mathf.Deg2Rad) * renderingDistance, farLimit.z);
         farLowerLeftVertex = new Vector3(Mathf.Tan((-fieldOfViewAngle / 2) * Mathf.Deg2Rad) * renderingDistance, Mathf.Tan((-verticalfieldOfViewAngle / 2) * Mathf.Deg2Rad) * renderingDistance, farLimit.z);
         farLowerRightVertex = new Vector3(Mathf.Tan((fieldOfViewAngle / 2) * Mathf.Deg2Rad) * renderingDistance, Mathf.Tan((-verticalfieldOfViewAngle / 2) * Mathf.Deg2Rad) * renderingDistance, farLimit.z);
+
     }
 
     private void OnDrawGizmos()
