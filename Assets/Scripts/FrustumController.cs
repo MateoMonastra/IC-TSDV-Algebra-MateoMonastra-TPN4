@@ -51,15 +51,15 @@ public class FrustumController : MonoBehaviour
         farLimit = transform.position + transform.forward * renderingDistance;
         nearLimit = transform.position + transform.forward * nearClippingPlane;
 
-        nearUpperLeftVertex = new Vector3(Mathf.Tan((-fieldOfViewAngle / 2) * Mathf.Deg2Rad) * nearClippingPlane, Mathf.Tan((verticalfieldOfViewAngle / 2) * Mathf.Deg2Rad) * nearClippingPlane, nearLimit.z);
-        nearUpperRightVertex = new Vector3(Mathf.Tan((fieldOfViewAngle / 2) * Mathf.Deg2Rad) * nearClippingPlane, Mathf.Tan((verticalfieldOfViewAngle / 2) * Mathf.Deg2Rad) * nearClippingPlane, nearLimit.z);
-        nearLowerLeftVertex = new Vector3(Mathf.Tan((-fieldOfViewAngle / 2) * Mathf.Deg2Rad) * nearClippingPlane, Mathf.Tan((-verticalfieldOfViewAngle / 2) * Mathf.Deg2Rad) * nearClippingPlane, nearLimit.z);
-        nearLowerRightVertex = new Vector3(Mathf.Tan((fieldOfViewAngle / 2) * Mathf.Deg2Rad) * nearClippingPlane, Mathf.Tan((-verticalfieldOfViewAngle / 2) * Mathf.Deg2Rad) * nearClippingPlane, nearLimit.z);
+        nearUpperLeftVertex = new Vector3(Mathf.Tan((-fieldOfViewAngle / 2) * Mathf.Deg2Rad) * nearClippingPlane + farLimit.x, Mathf.Tan((verticalfieldOfViewAngle / 2) * Mathf.Deg2Rad) * nearClippingPlane+ nearLimit.y, nearLimit.z);
+        nearUpperRightVertex = new Vector3(Mathf.Tan((fieldOfViewAngle / 2) * Mathf.Deg2Rad) * nearClippingPlane + farLimit.x, Mathf.Tan((verticalfieldOfViewAngle / 2) * Mathf.Deg2Rad) * nearClippingPlane+ nearLimit.y, nearLimit.z);
+        nearLowerLeftVertex = new Vector3(Mathf.Tan((-fieldOfViewAngle / 2) * Mathf.Deg2Rad) * nearClippingPlane + farLimit.x, Mathf.Tan((-verticalfieldOfViewAngle / 2) * Mathf.Deg2Rad) * nearClippingPlane+ nearLimit.y, nearLimit.z);
+        nearLowerRightVertex = new Vector3(Mathf.Tan((fieldOfViewAngle / 2) * Mathf.Deg2Rad) * nearClippingPlane + farLimit.x, Mathf.Tan((-verticalfieldOfViewAngle / 2) * Mathf.Deg2Rad) * nearClippingPlane+ nearLimit.y, nearLimit.z);
 
-        farUpperLeftVertex = new Vector3(Mathf.Tan((-fieldOfViewAngle / 2) * Mathf.Deg2Rad) * renderingDistance, Mathf.Tan((verticalfieldOfViewAngle / 2) * Mathf.Deg2Rad) * renderingDistance, farLimit.z);
-        farUpperRightVertex = new Vector3(Mathf.Tan((fieldOfViewAngle / 2) * Mathf.Deg2Rad) * renderingDistance, Mathf.Tan((verticalfieldOfViewAngle / 2) * Mathf.Deg2Rad) * renderingDistance, farLimit.z);
-        farLowerLeftVertex = new Vector3(Mathf.Tan((-fieldOfViewAngle / 2) * Mathf.Deg2Rad) * renderingDistance, Mathf.Tan((-verticalfieldOfViewAngle / 2) * Mathf.Deg2Rad) * renderingDistance, farLimit.z);
-        farLowerRightVertex = new Vector3(Mathf.Tan((fieldOfViewAngle / 2) * Mathf.Deg2Rad) * renderingDistance, Mathf.Tan((-verticalfieldOfViewAngle / 2) * Mathf.Deg2Rad) * renderingDistance, farLimit.z);
+        farUpperLeftVertex = new Vector3(Mathf.Tan((-fieldOfViewAngle / 2) * Mathf.Deg2Rad) * renderingDistance + farLimit.x, Mathf.Tan((verticalfieldOfViewAngle / 2) * Mathf.Deg2Rad) * renderingDistance + farLimit.y, farLimit.z);
+        farUpperRightVertex = new Vector3(Mathf.Tan((fieldOfViewAngle / 2) * Mathf.Deg2Rad) * renderingDistance + farLimit.x, Mathf.Tan((verticalfieldOfViewAngle / 2) * Mathf.Deg2Rad) * renderingDistance + farLimit.y, farLimit.z);
+        farLowerLeftVertex = new Vector3(Mathf.Tan((-fieldOfViewAngle / 2) * Mathf.Deg2Rad) * renderingDistance + farLimit.x, Mathf.Tan((-verticalfieldOfViewAngle / 2) * Mathf.Deg2Rad) * renderingDistance + farLimit.y, farLimit.z);
+        farLowerRightVertex = new Vector3(Mathf.Tan((fieldOfViewAngle / 2) * Mathf.Deg2Rad) * renderingDistance + farLimit.x, Mathf.Tan((-verticalfieldOfViewAngle / 2) * Mathf.Deg2Rad) * renderingDistance + farLimit.y, farLimit.z);
 
     }
 
