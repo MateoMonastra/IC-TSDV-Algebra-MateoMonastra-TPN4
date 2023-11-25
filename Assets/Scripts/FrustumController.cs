@@ -51,10 +51,10 @@ public class FrustumController : MonoBehaviour
         farLimit = transform.position + transform.forward * renderingDistance;
         nearLimit = transform.position + transform.forward * nearClippingPlane;
 
-        nearUpperLeftVertex = new Vector3(Mathf.Tan((-fieldOfViewAngle / 2) * Mathf.Deg2Rad) * nearClippingPlane + farLimit.x, Mathf.Tan((verticalfieldOfViewAngle / 2) * Mathf.Deg2Rad) * nearClippingPlane+ nearLimit.y, nearLimit.z);
-        nearUpperRightVertex = new Vector3(Mathf.Tan((fieldOfViewAngle / 2) * Mathf.Deg2Rad) * nearClippingPlane + farLimit.x, Mathf.Tan((verticalfieldOfViewAngle / 2) * Mathf.Deg2Rad) * nearClippingPlane+ nearLimit.y, nearLimit.z);
-        nearLowerLeftVertex = new Vector3(Mathf.Tan((-fieldOfViewAngle / 2) * Mathf.Deg2Rad) * nearClippingPlane + farLimit.x, Mathf.Tan((-verticalfieldOfViewAngle / 2) * Mathf.Deg2Rad) * nearClippingPlane+ nearLimit.y, nearLimit.z);
-        nearLowerRightVertex = new Vector3(Mathf.Tan((fieldOfViewAngle / 2) * Mathf.Deg2Rad) * nearClippingPlane + farLimit.x, Mathf.Tan((-verticalfieldOfViewAngle / 2) * Mathf.Deg2Rad) * nearClippingPlane+ nearLimit.y, nearLimit.z);
+        nearUpperLeftVertex = new Vector3(Mathf.Tan((-fieldOfViewAngle / 2) * Mathf.Deg2Rad) * nearClippingPlane + nearLimit.x, Mathf.Tan((verticalfieldOfViewAngle / 2) * Mathf.Deg2Rad) * nearClippingPlane+ nearLimit.y, nearLimit.z);
+        nearUpperRightVertex = new Vector3(Mathf.Tan((fieldOfViewAngle / 2) * Mathf.Deg2Rad) * nearClippingPlane + nearLimit.x, Mathf.Tan((verticalfieldOfViewAngle / 2) * Mathf.Deg2Rad) * nearClippingPlane+ nearLimit.y, nearLimit.z);
+        nearLowerLeftVertex = new Vector3(Mathf.Tan((-fieldOfViewAngle / 2) * Mathf.Deg2Rad) * nearClippingPlane + nearLimit.x, Mathf.Tan((-verticalfieldOfViewAngle / 2) * Mathf.Deg2Rad) * nearClippingPlane+ nearLimit.y, nearLimit.z);
+        nearLowerRightVertex = new Vector3(Mathf.Tan((fieldOfViewAngle / 2) * Mathf.Deg2Rad) * nearClippingPlane + nearLimit.x, Mathf.Tan((-verticalfieldOfViewAngle / 2) * Mathf.Deg2Rad) * nearClippingPlane+ nearLimit.y, nearLimit.z);
 
         farUpperLeftVertex = new Vector3(Mathf.Tan((-fieldOfViewAngle / 2) * Mathf.Deg2Rad) * renderingDistance + farLimit.x, Mathf.Tan((verticalfieldOfViewAngle / 2) * Mathf.Deg2Rad) * renderingDistance + farLimit.y, farLimit.z);
         farUpperRightVertex = new Vector3(Mathf.Tan((fieldOfViewAngle / 2) * Mathf.Deg2Rad) * renderingDistance + farLimit.x, Mathf.Tan((verticalfieldOfViewAngle / 2) * Mathf.Deg2Rad) * renderingDistance + farLimit.y, farLimit.z);
@@ -72,13 +72,6 @@ public class FrustumController : MonoBehaviour
 
             DrawFrustumLines();
 
-            for (int i = 0; i < vertices.Count - 3; i += 3)
-            {
-                Gizmos.DrawLine(vertices[i], vertices[i + 1]);
-                Gizmos.DrawLine(vertices[i], vertices[i + 2]);
-                Gizmos.DrawLine(vertices[i + 1], vertices[i + 2]);
-            }
-
             for (int faceIndex = 0; faceIndex <= vertices.Count - 3; faceIndex += 3)
             {
                 Vector3 point;
@@ -92,6 +85,7 @@ public class FrustumController : MonoBehaviour
             }
         }
     }
+
     void DrawFrustumLines()
     {
         Gizmos.DrawLine(nearUpperLeftVertex, farUpperLeftVertex);
@@ -109,8 +103,6 @@ public class FrustumController : MonoBehaviour
         Gizmos.DrawLine(farLowerRightVertex, farLowerLeftVertex);
         Gizmos.DrawLine(farLowerLeftVertex, farUpperLeftVertex);
     }
-
-    // Update is called once per frame
 
     void SetVertices()
     {
@@ -138,6 +130,7 @@ public class FrustumController : MonoBehaviour
         vertices.Add(farLowerRightVertex);
         vertices.Add(farUpperRightVertex);
     }
+
     void UpdateVertices()
     {
         vertices[0] = transform.position;
@@ -188,6 +181,7 @@ public class FrustumController : MonoBehaviour
 
         return normalizedNormal;
     }
+
     public bool IsPointInside(Vector3 point, int faceIndex)
     {
         Vector3 normal = GetFaceNormal(faceIndex);
@@ -199,6 +193,7 @@ public class FrustumController : MonoBehaviour
 
         return Vector3.Dot(normal, point - facePoint) > 0;
     }
+
     public Vector3 GetFacePoint(int faceIndex)
     {
         Vector3 point;
